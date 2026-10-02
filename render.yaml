@@ -2,7 +2,7 @@ services:
   - type: web
     name: genesis-ai
     runtime: python
-    plan: starter            # use "free" to test; free sleeps after 15 min idle
+    plan: free            # use "free" to test; free sleeps after 15 min idle
     rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips="*"
