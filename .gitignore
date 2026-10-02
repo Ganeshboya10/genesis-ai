@@ -1,0 +1,9 @@
+backend/.venv/
+__pycache__/
+*.pyc
+backend/.env
+backend/.clarity_cache.json
+backend/.brief_cache.json
+backend/artifacts/
+_to_delete/
+.DS_Store

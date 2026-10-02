@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in · Genesis AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* HerVpod brand, matching the main app */
+    --page: #f8f3f6;
+    --surface: #ffffff;
+    --ink: #641f40;
+    --ink-soft: #8d6177;
+    --line: #e7d2dd;
+    --rose: #c24784;
+    --rose-strong: #832a54;
+    --blush: #faecf3;
+    --sky-1: #f6c2db;
+    --sky-2: #fbe2ee;
+    --alert: #d02e2e;
+    --alert-soft: #fdecec;
+    --font-head: "Raleway", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-body: "Libre Baskerville", Georgia, serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page: #1b0e15;
+      --surface: #26141e;
+      --ink: #f7e7ef;
+      --ink-soft: #c7a0b4;
+      --line: #43263a;
+      --rose: #f07bb5;
+      --rose-strong: #f5a3cb;
+      --blush: #3a1c2b;
+      --sky-1: #5a2140;
+      --sky-2: #2e1522;
+      --alert: #f18a80;
+      --alert-soft: #321a1a;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: var(--font-head);
+    font-variant-numeric: lining-nums;
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible { outline: 2px solid var(--rose); outline-offset: 2px; }
+
+  .split { min-height: 100vh; display: grid; grid-template-columns: 1.1fr 1fr; }
+
+  /* Left: the pink "sky" from the HerVpod homepage */
+  .sky {
+    position: relative;
+    padding: 40px 56px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    background:
+      radial-gradient(60% 50% at 20% 85%, var(--sky-1) 0%, transparent 70%),
+      radial-gradient(55% 45% at 85% 20%, var(--sky-1) 0%, transparent 70%),
+      radial-gradient(80% 70% at 50% 50%, var(--sky-2) 0%, var(--blush) 100%);
+    overflow: hidden;
+  }
+  .logo { height: 40px; width: auto; display: block; }
+  .logo-text { font-weight: 600; letter-spacing: .5px; font-size: 18px; }
+  .logo-text[hidden] { display: none; }
+  .pitch { max-width: 460px; }
+  .app-name {
+    font-size: clamp(44px, 6vw, 76px);
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: .5px;
+    margin: 0 0 20px;
+  }
+  .pitch p {
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.7;
+    margin: 0;
+    color: var(--rose-strong);
+  }
+  .foot { font-size: 13px; color: var(--ink-soft); }
+
+  /* Right: the form */
+  .panel { display: grid; place-items: center; padding: 40px 24px; background: var(--surface); }
+  form { width: 100%; max-width: 360px; }
+  h1 { font-size: 26px; font-weight: 500; letter-spacing: .3px; margin: 0 0 6px; }
+  .lede { font-family: var(--font-body); font-size: 14px; color: var(--ink-soft); margin: 0 0 30px; line-height: 1.6; }
+  label { display: block; font-size: 14px; font-weight: 600; margin: 0 0 6px; }
+  .field { margin-bottom: 18px; }
+  .input-wrap { position: relative; }
+  input {
+    width: 100%;
+    font: 15px/1.4 var(--font-body);
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 12px 14px;
+    outline: none;
+  }
+  input:focus { border-color: var(--rose); box-shadow: 0 0 0 3px var(--blush); }
+  input[aria-invalid="true"] { border-color: var(--alert); }
+  #password { padding-right: 70px; }
+  .toggle {
+    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    background: none; border: 0; padding: 6px 8px; border-radius: 4px;
+    font: 600 13px var(--font-head); color: var(--rose-strong); cursor: pointer;
+  }
+  .toggle:hover { background: var(--blush); }
+  .error {
+    display: none;
+    background: var(--alert-soft); color: var(--alert);
+    border-radius: 4px; padding: 10px 12px; font-size: 14px; margin-bottom: 18px;
+  }
+  .error.show { display: block; }
+  .submit {
+    width: 100%;
+    margin-top: 8px;
+    background: var(--rose); color: #fff;
+    border: 0; border-radius: 4px; cursor: pointer;
+    padding: 14px 18px;
+    font: 500 13px var(--font-head);
+    text-transform: uppercase; letter-spacing: 2px;
+  }
+  @media (prefers-color-scheme: dark) { .submit { color: #2a0b19; } }
+  .submit:hover { background: var(--rose-strong); }
+  .submit:disabled { opacity: .6; cursor: default; }
+  .help { margin-top: 22px; font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+
+  @media (max-width: 820px) {
+    .split { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+    .sky { padding: 24px 24px 32px; gap: 28px; }
+    .app-name { font-size: 44px; margin-bottom: 10px; }
+    .pitch p { font-size: 15px; }
+    .foot { display: none; }
+    .panel { place-items: start center; padding: 32px 24px 48px; }
+  }
+</style>
+</head>
+<body>
+<div class="split">
+  <section class="sky">
+    <div>
+      <img class="logo" id="logo" alt="HerVpod"
+           src="https://hervpod.com/cdn/shop/files/Vpod_Logo_pink_e56965a8-7937-494e-8a2f-dd898bf5a70e.png?width=320">
+      <span class="logo-text" id="logoText" hidden>Cool Comforts Co</span>
+    </div>
+    <div class="pitch">
+      <h2 class="app-name">Genesis AI</h2>
+      <p>Yesterday's sales, how the website is doing, and anything that needs you, in one place every morning.</p>
+    </div>
+    <div class="foot">For the Cool Comforts Co team</div>
+  </section>
+
+  <main class="panel">
+    <form id="form" novalidate>
+      <h1>Sign in</h1>
+      <p class="lede">Use your Cool Comforts email.</p>
+
+      <div class="error" id="error" role="alert"></div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="username" type="email" autocomplete="username" inputmode="email"
+               autocapitalize="none" spellcheck="false" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="input-wrap">
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+          <button type="button" class="toggle" id="toggle" aria-controls="password" aria-pressed="false">Show</button>
+        </div>
+      </div>
+
+      <button class="submit" id="submit">Sign in</button>
+      <p class="help">Forgotten the password? Ask Ganesh to reset it.</p>
+    </form>
+  </main>
+</div>
+<script>
+  (function () {
+    const logo = document.getElementById("logo");
+    const fallback = () => { logo.remove(); document.getElementById("logoText").hidden = false; };
+    if (logo.complete && logo.naturalWidth === 0) fallback(); else logo.addEventListener("error", fallback);
+  })();
+
+  const form = document.getElementById("form");
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const errorEl = document.getElementById("error");
+  const submit = document.getElementById("submit");
+  const toggle = document.getElementById("toggle");
+
+  try { email.value = localStorage.getItem("genesis-email") || ""; } catch (e) {}
+  (email.value ? password : email).focus();
+
+  toggle.addEventListener("click", () => {
+    const show = password.type === "password";
+    password.type = show ? "text" : "password";
+    toggle.textContent = show ? "Hide" : "Show";
+    toggle.setAttribute("aria-pressed", String(show));
+    password.focus();
+  });
+
+  function showError(msg) {
+    errorEl.textContent = msg;
+    errorEl.classList.add("show");
+  }
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    errorEl.classList.remove("show");
+    [email, password].forEach(i => i.removeAttribute("aria-invalid"));
+    if (!email.value.trim()) { email.setAttribute("aria-invalid", "true"); email.focus(); return showError("Enter your email."); }
+    if (!password.value) { password.setAttribute("aria-invalid", "true"); password.focus(); return showError("Enter your password."); }
+
+    submit.disabled = true;
+    submit.textContent = "Signing in";
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: email.value.trim(), password: password.value }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.detail || "Couldn't sign in. Try again.");
+      try { localStorage.setItem("genesis-email", email.value.trim()); } catch (e) {}
+      location.replace("/");
+    } catch (err) {
+      password.value = "";
+      password.setAttribute("aria-invalid", "true");
+      password.focus();
+      showError(err.message === "Failed to fetch" ? "Can't reach Genesis AI. Check your connection and try again." : err.message);
+      submit.disabled = false;
+      submit.textContent = "Sign in";
+    }
+  });
+</script>
+</body>
+</html>
